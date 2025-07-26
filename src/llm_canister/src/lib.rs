@@ -363,7 +363,7 @@ fn pre_upgrade() {
 
 #[post_upgrade]
 fn post_upgrade() {
-    ic_cdk::println!("LLM Canister upgraded - Medical AI models ready");
+    ic_cdk::println!("EchoLedger LLM Canister upgraded - Medical AI models ready");
 }
 
 // Export Candid interface
