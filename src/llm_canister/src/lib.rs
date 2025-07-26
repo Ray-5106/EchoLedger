@@ -339,7 +339,7 @@ fn get_model_stats() -> String {
     let analysis_count = MEDICAL_ANALYSES.with(|store| store.borrow().len());
     
     format!(
-        "LLM Canister Stats:\n\
+        "EchoLedger LLM Canister Stats:\n\
         - Llama3.1:8b requests processed: {}\n\
         - Medical analyses completed: {}\n\
         - Average confidence: 0.87\n\
