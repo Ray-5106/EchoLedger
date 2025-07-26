@@ -5,6 +5,146 @@ import axios from "axios";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+// Hero/Intro Section Component
+const HeroSection = ({ onGetStarted }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [statsCounter, setStatsCounter] = useState({ organs: 0, lives: 0, hospitals: 0 });
+
+  useEffect(() => {
+    setIsVisible(true);
+    
+    // Animated counter effect
+    const timer = setInterval(() => {
+      setStatsCounter(prev => ({
+        organs: prev.organs < 28000 ? prev.organs + 500 : 28000,
+        lives: prev.lives < 117 ? prev.lives + 2 : 117,
+        hospitals: prev.hospitals < 6090 ? prev.hospitals + 100 : 6090
+      }));
+    }, 50);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="hero-section">
+      {/* Hero Background */}
+      <div className="hero-background">
+        <img 
+          src="https://images.unsplash.com/photo-1624004015322-a94d3a4eff39?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxlbWVyZ2VuY3klMjByb29tfGVufDB8fHx8MTc1MzU0NzE2MXww&ixlib=rb-4.1.0&q=85"
+          alt="Emergency Medical Technology"
+          className="hero-bg-image"
+        />
+        <div className="hero-overlay"></div>
+      </div>
+
+      {/* Hero Content */}
+      <div className={`hero-content ${isVisible ? 'hero-visible' : ''}`}>
+        <div className="container mx-auto px-6 text-center">
+          
+          {/* Competition Badge */}
+          <div className="competition-badge">
+            <span className="badge-text">🏆 WCHL 2025 Competition Entry</span>
+            <span className="badge-track">AI Track - Decentralized Intelligence</span>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="hero-title">
+            <span className="gradient-text">👻 GhostChart AI</span>
+            <br />
+            <span className="hero-subtitle">Autonomous Health Directive Executor</span>
+          </h1>
+
+          {/* Value Proposition */}
+          <p className="hero-description">
+            The first <strong>fully autonomous</strong> healthcare system that honors patient wishes in real-time.
+            <br />
+            Built on <strong>Internet Computer Protocol</strong> with AI-powered medical directive enforcement.
+          </p>
+
+          {/* Crisis Statistics */}
+          <div className="crisis-stats">
+            <div className="stat-item">
+              <div className="stat-number">{statsCounter.organs.toLocaleString()}</div>
+              <div className="stat-label">Organs Wasted Annually</div>
+            </div>
+            <div className="stat-divider">•</div>
+            <div className="stat-item">
+              <div className="stat-number">{statsCounter.lives}</div>
+              <div className="stat-label">Lives Lost Daily</div>
+            </div>
+            <div className="stat-divider">•</div>
+            <div className="stat-item">
+              <div className="stat-number">{statsCounter.hospitals.toLocaleString()}</div>
+              <div className="stat-label">US Hospitals</div>
+            </div>
+          </div>
+
+          {/* Key Features */}
+          <div className="hero-features">
+            <div className="feature-item">
+              <div className="feature-icon">⚡</div>
+              <div className="feature-text">Sub-Second<br />Emergency Alerts</div>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">🧠</div>
+              <div className="feature-text">AI-Powered<br />Llama3.1:8b NLP</div>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">🛡️</div>
+              <div className="feature-text">HIPAA Compliant<br />50-Year Protection</div>
+            </div>
+            <div className="feature-item">
+              <div className="feature-icon">🤖</div>
+              <div className="feature-text">Fully Autonomous<br />No Human Needed</div>
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="hero-cta">
+            <button 
+              onClick={onGetStarted}
+              className="cta-primary"
+            >
+              <span>🚀 Experience Live Demo</span>
+              <div className="button-shine"></div>
+            </button>
+            <button className="cta-secondary">
+              <span>📋 View ICP Canisters</span>
+            </button>
+          </div>
+
+          {/* Tech Stack Icons */}
+          <div className="tech-stack">
+            <div className="tech-label">Built with:</div>
+            <div className="tech-icons">
+              <div className="tech-item">
+                <span className="tech-icon">🔗</span>
+                <span>ICP</span>
+              </div>
+              <div className="tech-item">
+                <span className="tech-icon">🦀</span>
+                <span>Rust</span>
+              </div>
+              <div className="tech-item">
+                <span className="tech-icon">🔷</span>
+                <span>Motoko</span>
+              </div>
+              <div className="tech-item">
+                <span className="tech-icon">🧠</span>
+                <span>Llama3.1</span>
+              </div>
+              <div className="tech-item">
+                <span className="tech-icon">⚛️</span>
+                <span>React</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Emergency Dashboard Component
 const EmergencyDashboard = () => {
   const [patientId, setPatientId] = useState("");
@@ -26,7 +166,7 @@ const EmergencyDashboard = () => {
         vitals: { bp: "80/50", pulse: 120, oxygen: 85 }
       });
       setCheckResult(response.data);
-      fetchRecentAlerts(); // Refresh alerts
+      fetchRecentAlerts();
     } catch (error) {
       console.error("Emergency check failed:", error);
       setCheckResult({
@@ -48,111 +188,165 @@ const EmergencyDashboard = () => {
 
   useEffect(() => {
     fetchRecentAlerts();
-    const interval = setInterval(fetchRecentAlerts, 30000); // Refresh every 30s
+    const interval = setInterval(fetchRecentAlerts, 30000);
     return () => clearInterval(interval);
   }, []);
 
   const getAlertStyle = (action) => {
     switch (action) {
       case "alert_ER":
-        return "bg-red-100 border-red-500 text-red-800";
+        return "alert-critical";
       case "continue_treatment":
-        return "bg-green-100 border-green-500 text-green-800";
+        return "alert-success";
       case "recommend_review":
-        return "bg-yellow-100 border-yellow-500 text-yellow-800";
+        return "alert-warning";
       default:
-        return "bg-gray-100 border-gray-500 text-gray-800";
+        return "alert-info";
+    }
+  };
+
+  const getAlertIcon = (action) => {
+    switch (action) {
+      case "alert_ER": return "🚨";
+      case "continue_treatment": return "✅";
+      case "recommend_review": return "⚠️";
+      default: return "ℹ️";
     }
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold text-red-600 mb-4 flex items-center">
-          🚨 GhostChart Emergency Directive Verification
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+    <div className="dashboard-container">
+      {/* Emergency Verification Card */}
+      <div className="medical-card emergency-card">
+        <div className="card-header">
+          <div className="header-icon">🚨</div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <h2 className="card-title">Emergency Directive Verification</h2>
+            <p className="card-subtitle">Real-time DNR status lookup for ER staff</p>
+          </div>
+          <div className="pulse-indicator"></div>
+        </div>
+        
+        <div className="form-grid">
+          <div className="input-group">
+            <label className="input-label">
+              <span className="label-icon">👤</span>
               Patient ID
             </label>
             <input
               type="text"
               value={patientId}
               onChange={(e) => setPatientId(e.target.value)}
-              placeholder="Enter Patient ID"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              placeholder="Enter Patient ID (try: dnr_patient_002)"
+              className="medical-input"
             />
+            <div className="input-helper">Try: dnr_patient_002, test_patient_001</div>
           </div>
           
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="input-group">
+            <label className="input-label">
+              <span className="label-icon">🏥</span>
               Emergency Situation
             </label>
             <select
               value={situation}
               onChange={(e) => setSituation(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="medical-select"
             >
-              <option value="cardiac_arrest">Cardiac Arrest</option>
-              <option value="respiratory_failure">Respiratory Failure</option>
-              <option value="stroke">Stroke</option>
-              <option value="trauma">Severe Trauma</option>
+              <option value="cardiac_arrest">🫀 Cardiac Arrest</option>
+              <option value="respiratory_failure">🫁 Respiratory Failure</option>
+              <option value="stroke">🧠 Stroke</option>
+              <option value="trauma">🩹 Severe Trauma</option>
             </select>
           </div>
           
-          <div className="flex items-end">
+          <div className="button-group">
             <button
               onClick={handleEmergencyCheck}
               disabled={loading || !patientId.trim()}
-              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded-md transition-colors"
+              className="emergency-button"
             >
-              {loading ? "Checking..." : "🔍 Emergency Check"}
+              {loading ? (
+                <>
+                  <div className="loading-spinner"></div>
+                  <span>Verifying...</span>
+                </>
+              ) : (
+                <>
+                  <span className="button-icon">🔍</span>
+                  <span>Emergency Check</span>
+                </>
+              )}
             </button>
           </div>
         </div>
 
         {checkResult && (
-          <div className={`border-l-4 p-4 mb-4 rounded ${getAlertStyle(checkResult.action)}`}>
-            <div className="flex items-center mb-2">
-              <span className="font-bold text-lg">
-                {checkResult.action === "alert_ER" ? "⚠️ DNR ALERT" : 
-                 checkResult.action === "continue_treatment" ? "✅ PROCEED" : 
-                 "📋 REVIEW REQUIRED"}
+          <div className={`alert-result ${getAlertStyle(checkResult.action)}`}>
+            <div className="alert-header">
+              <span className="alert-icon">
+                {getAlertIcon(checkResult.action)}
+              </span>
+              <span className="alert-title">
+                {checkResult.action === "alert_ER" ? "⚠️ DNR DIRECTIVE FOUND" : 
+                 checkResult.action === "continue_treatment" ? "✅ PROCEED WITH TREATMENT" : 
+                 "📋 MANUAL REVIEW REQUIRED"}
               </span>
             </div>
-            <p className="text-sm mb-2">{checkResult.message}</p>
-            <div className="text-xs opacity-75">
-              Patient: {checkResult.patient_id} | 
-              Directive Found: {checkResult.directive_found ? "✅" : "❌"} | 
-              Signature Verified: {checkResult.signature_verified ? "✅" : "❌"}
+            <div className="alert-message">{checkResult.message}</div>
+            <div className="alert-details">
+              <span className="detail-item">
+                <strong>Patient:</strong> {checkResult.patient_id}
+              </span>
+              <span className="detail-divider">•</span>
+              <span className="detail-item">
+                <strong>Directive:</strong> {checkResult.directive_found ? "✅ Found" : "❌ Not Found"}
+              </span>
+              <span className="detail-divider">•</span>
+              <span className="detail-item">
+                <strong>Verified:</strong> {checkResult.signature_verified ? "✅ Valid" : "❌ Invalid"}
+              </span>
             </div>
           </div>
         )}
       </div>
 
       {/* Recent Alerts */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">📊 Recent Emergency Alerts</h3>
-        <div className="space-y-2 max-h-96 overflow-y-auto">
+      <div className="medical-card alerts-card">
+        <div className="card-header">
+          <div className="header-icon">📊</div>
+          <div>
+            <h3 className="card-title">Live Emergency Alerts</h3>
+            <p className="card-subtitle">Real-time directive verification history</p>
+          </div>
+          <div className="refresh-indicator"></div>
+        </div>
+        
+        <div className="alerts-container">
           {recentAlerts.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">No recent alerts</p>
+            <div className="empty-state">
+              <div className="empty-icon">📊</div>
+              <p>No recent alerts</p>
+              <span className="empty-subtitle">Emergency checks will appear here</span>
+            </div>
           ) : (
-            recentAlerts.map((alert, index) => (
-              <div key={index} className="bg-gray-50 p-3 rounded border-l-4 border-blue-500">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="font-semibold text-blue-800">{alert.alert_type}</span>
-                    <p className="text-sm text-gray-600">{alert.message}</p>
-                    <p className="text-xs text-gray-400">Patient: {alert.patient_id}</p>
+            <div className="alerts-list">
+              {recentAlerts.map((alert, index) => (
+                <div key={index} className="alert-item">
+                  <div className="alert-indicator"></div>
+                  <div className="alert-content">
+                    <div className="alert-row">
+                      <span className="alert-type">{alert.alert_type}</span>
+                      <span className="alert-time">
+                        {new Date(alert.timestamp).toLocaleTimeString()}
+                      </span>
+                    </div>
+                    <p className="alert-text">{alert.message}</p>
+                    <span className="alert-patient">Patient: {alert.patient_id}</span>
                   </div>
-                  <span className="text-xs text-gray-400">
-                    {new Date(alert.timestamp).toLocaleTimeString()}
-                  </span>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -160,7 +354,7 @@ const EmergencyDashboard = () => {
   );
 };
 
-// Directive Processing Component
+// AI Processing Component
 const DirectiveProcessor = () => {
   const [patientId, setPatientId] = useState("");
   const [patientName, setPatientName] = useState("");
@@ -192,90 +386,152 @@ const DirectiveProcessor = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-blue-600 mb-4 flex items-center">
-          🧠 AI Directive Processing (NLP)
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div className="dashboard-container">
+      <div className="medical-card ai-card">
+        <div className="card-header">
+          <div className="header-icon">🧠</div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Patient ID</label>
-            <input
-              type="text"
-              value={patientId}
-              onChange={(e) => setPatientId(e.target.value)}
-              placeholder="Enter Patient ID"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <h2 className="card-title">AI Directive Processing</h2>
+            <p className="card-subtitle">Llama3.1:8b powered medical NLP extraction</p>
           </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Patient Name</label>
-            <input
-              type="text"
-              value={patientName}
-              onChange={(e) => setPatientName(e.target.value)}
-              placeholder="Enter Patient Name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="ai-indicator">
+            <span className="ai-pulse"></span>
+            <span className="ai-text">AI Active</span>
           </div>
         </div>
+        
+        <div className="form-grid">
+          <div className="input-row">
+            <div className="input-group">
+              <label className="input-label">
+                <span className="label-icon">🆔</span>
+                Patient ID
+              </label>
+              <input
+                type="text"
+                value={patientId}
+                onChange={(e) => setPatientId(e.target.value)}
+                placeholder="Enter Patient ID"
+                className="medical-input"
+              />
+            </div>
+            
+            <div className="input-group">
+              <label className="input-label">
+                <span className="label-icon">👤</span>
+                Patient Name
+              </label>
+              <input
+                type="text"
+                value={patientName}
+                onChange={(e) => setPatientName(e.target.value)}
+                placeholder="Enter Patient Name"
+                className="medical-input"
+              />
+            </div>
+          </div>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Advance Directive Text
-          </label>
-          <textarea
-            value={directiveText}
-            onChange={(e) => setDirectiveText(e.target.value)}
-            placeholder="Enter the patient's advance directive in natural language..."
-            rows={6}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="input-group">
+            <label className="input-label">
+              <span className="label-icon">📋</span>
+              Advance Directive Text
+            </label>
+            <textarea
+              value={directiveText}
+              onChange={(e) => setDirectiveText(e.target.value)}
+              placeholder="Enter the patient's advance directive in natural language..."
+              rows={6}
+              className="medical-textarea"
+            />
+            <button
+              onClick={() => setDirectiveText(sampleDirective)}
+              className="sample-button"
+            >
+              📝 Use Sample Directive
+            </button>
+          </div>
+
           <button
-            onClick={() => setDirectiveText(sampleDirective)}
-            className="mt-2 text-sm text-blue-600 hover:text-blue-800 underline"
+            onClick={handleProcess}
+            disabled={loading || !patientId.trim() || !patientName.trim() || !directiveText.trim()}
+            className="ai-process-button"
           >
-            📝 Use Sample Directive
+            {loading ? (
+              <>
+                <div className="ai-processing">
+                  <div className="ai-spinner"></div>
+                  <span>AI Processing...</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <span className="button-icon">🔬</span>
+                <span>Process with Llama3.1:8b</span>
+              </>
+            )}
           </button>
         </div>
 
-        <button
-          onClick={handleProcess}
-          disabled={loading || !patientId.trim() || !patientName.trim() || !directiveText.trim()}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-4 rounded-md transition-colors mb-4"
-        >
-          {loading ? "Processing with AI..." : "🔬 Process with Llama3.1:8b"}
-        </button>
-
         {processingResult && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-bold text-blue-800 mb-2">Processing Result:</h3>
-            <div className="space-y-2 text-sm">
-              <p><strong>Action:</strong> {processingResult.action}</p>
-              <p><strong>Confidence:</strong> {(processingResult.confidence_score * 100).toFixed(1)}%</p>
-              
-              {processingResult.elements && (
-                <div>
-                  <p><strong>Extracted Elements:</strong></p>
-                  <ul className="ml-4 list-disc">
-                    <li>DNR Detected: {processingResult.elements.dnr_detected ? "✅ Yes" : "❌ No"}</li>
-                    {processingResult.elements.dnr_conditions?.length > 0 && (
-                      <li>Conditions: {processingResult.elements.dnr_conditions.join(", ")}</li>
-                    )}
-                    {processingResult.elements.organ_donation?.length > 0 && (
-                      <li>Organ Donation: {processingResult.elements.organ_donation.join(", ")}</li>
-                    )}
-                    {processingResult.elements.data_consent?.research_allowed && (
-                      <li>Research Consent: ✅ Anonymized data sharing allowed</li>
-                    )}
-                  </ul>
+          <div className="ai-result-card">
+            <div className="result-header">
+              <span className="result-icon">🧠</span>
+              <h3>AI Processing Complete</h3>
+              <div className="confidence-score">
+                <span>Confidence: {(processingResult.confidence_score * 100).toFixed(1)}%</span>
+                <div className="confidence-bar">
+                  <div 
+                    className="confidence-fill"
+                    style={{ width: `${processingResult.confidence_score * 100}%` }}
+                  ></div>
                 </div>
-              )}
-              
-              <p><strong>Next Step:</strong> {processingResult.next_step}</p>
+              </div>
             </div>
+            
+            {processingResult.elements && (
+              <div className="extraction-results">
+                <h4>Extracted Elements:</h4>
+                <div className="results-grid">
+                  <div className="result-item">
+                    <div className="result-label">DNR Status</div>
+                    <div className={`result-value ${processingResult.elements.dnr_detected ? 'positive' : 'negative'}`}>
+                      {processingResult.elements.dnr_detected ? '✅ Detected' : '❌ Not Found'}
+                    </div>
+                  </div>
+                  
+                  {processingResult.elements.dnr_conditions?.length > 0 && (
+                    <div className="result-item">
+                      <div className="result-label">Conditions</div>
+                      <div className="result-value">
+                        {processingResult.elements.dnr_conditions.join(", ")}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {processingResult.elements.organ_donation?.length > 0 && (
+                    <div className="result-item">
+                      <div className="result-label">Organ Donation</div>
+                      <div className="result-value positive">
+                        {processingResult.elements.organ_donation.join(", ")}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {processingResult.elements.data_consent?.research_allowed && (
+                    <div className="result-item">
+                      <div className="result-label">Research Consent</div>
+                      <div className="result-value positive">
+                        ✅ Anonymized data sharing approved
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="next-step">
+                  <strong>Next Step:</strong> {processingResult.next_step}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -288,10 +544,12 @@ const OrganCoordination = () => {
   const [patientId, setPatientId] = useState("");
   const [organReferrals, setOrganReferrals] = useState([]);
   const [executionResult, setExecutionResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const executeDeathDirectives = async () => {
     if (!patientId.trim()) return;
     
+    setLoading(true);
     try {
       const response = await axios.post(`${API}/death/execute?patient_id=${patientId}`);
       setExecutionResult(response.data);
@@ -299,6 +557,7 @@ const OrganCoordination = () => {
     } catch (error) {
       console.error("Death directive execution failed:", error);
     }
+    setLoading(false);
   };
 
   const fetchOrganReferrals = async () => {
@@ -315,38 +574,78 @@ const OrganCoordination = () => {
   }, []);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold text-green-600 mb-4 flex items-center">
-          🫀 Autonomous Organ Donation Coordination
-        </h2>
+    <div className="dashboard-container">
+      {/* Execution Control */}
+      <div className="medical-card organ-card">
+        <div className="card-header">
+          <div className="header-icon">🫀</div>
+          <div>
+            <h2 className="card-title">Autonomous Organ Coordination</h2>
+            <p className="card-subtitle">AI-powered organ donation and directive execution</p>
+          </div>
+          <div className="organ-indicator">
+            <span className="organ-pulse"></span>
+          </div>
+        </div>
         
-        <div className="flex gap-4 mb-4">
-          <input
-            type="text"
-            value={patientId}
-            onChange={(e) => setPatientId(e.target.value)}
-            placeholder="Enter Patient ID for Death Directives"
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
+        <div className="execution-form">
+          <div className="input-group">
+            <label className="input-label">
+              <span className="label-icon">👤</span>
+              Patient ID for Death Directive Execution
+            </label>
+            <input
+              type="text"
+              value={patientId}
+              onChange={(e) => setPatientId(e.target.value)}
+              placeholder="Enter Patient ID (try: organ_donor_003)"
+              className="medical-input"
+            />
+            <div className="input-helper">Try: organ_donor_003, test_patient_001</div>
+          </div>
+          
           <button
             onClick={executeDeathDirectives}
-            disabled={!patientId.trim()}
-            className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded-md transition-colors"
+            disabled={!patientId.trim() || loading}
+            className="execution-button"
           >
-            ⚡ Execute Death Directives
+            {loading ? (
+              <>
+                <div className="loading-spinner"></div>
+                <span>Executing...</span>
+              </>
+            ) : (
+              <>
+                <span className="button-icon">⚡</span>
+                <span>Execute Death Directives</span>
+              </>
+            )}
           </button>
         </div>
 
         {executionResult && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-            <h3 className="font-bold text-green-800 mb-2">Autonomous Execution Complete</h3>
-            <p className="text-sm mb-2">Patient: {executionResult.patient_id}</p>
-            <p className="text-sm mb-2">Actions Executed: {executionResult.total_actions}</p>
-            <div className="text-xs">
+          <div className="execution-result">
+            <div className="result-header">
+              <span className="result-icon">⚡</span>
+              <h3>Autonomous Execution Complete</h3>
+            </div>
+            <div className="execution-summary">
+              <div className="summary-item">
+                <span className="summary-label">Patient:</span>
+                <span className="summary-value">{executionResult.patient_id}</span>
+              </div>
+              <div className="summary-item">
+                <span className="summary-label">Actions:</span>
+                <span className="summary-value">{executionResult.total_actions}</span>
+              </div>
+            </div>
+            <div className="actions-list">
               {executionResult.actions_executed?.map((action, index) => (
-                <div key={index} className="bg-white p-2 rounded border mb-1">
-                  <strong>{action.action}:</strong> {action.message || JSON.stringify(action)}
+                <div key={index} className="action-item">
+                  <div className="action-indicator"></div>
+                  <div className="action-content">
+                    <strong>{action.action}:</strong> {action.message || JSON.stringify(action)}
+                  </div>
                 </div>
               ))}
             </div>
@@ -354,32 +653,63 @@ const OrganCoordination = () => {
         )}
       </div>
 
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">🚚 Active Organ Referrals</h3>
-        <div className="space-y-2">
+      {/* Active Referrals */}
+      <div className="medical-card referrals-card">
+        <div className="card-header">
+          <div className="header-icon">🚚</div>
+          <div>
+            <h3 className="card-title">Active Organ Referrals</h3>
+            <p className="card-subtitle">Real-time organ procurement coordination</p>
+          </div>
+        </div>
+        
+        <div className="referrals-container">
           {organReferrals.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">No active organ referrals</p>
+            <div className="empty-state">
+              <div className="empty-icon">🫀</div>
+              <p>No active organ referrals</p>
+              <span className="empty-subtitle">Organ referrals will appear here</span>
+            </div>
           ) : (
-            organReferrals.map((referral, index) => (
-              <div key={index} className="bg-green-50 p-4 rounded border-l-4 border-green-500">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="font-semibold text-green-800">
-                      Patient: {referral.patient_id}
-                    </p>
-                    <p className="text-sm">Organs: {referral.organs.join(", ")}</p>
-                    <p className="text-sm">Destination: {referral.destination}</p>
-                    <p className="text-sm">Priority: {referral.priority}</p>
-                    {referral.match_probability && (
-                      <p className="text-sm">Match Probability: {(referral.match_probability * 100).toFixed(1)}%</p>
-                    )}
+            <div className="referrals-grid">
+              {organReferrals.map((referral, index) => (
+                <div key={index} className="referral-card">
+                  <div className="referral-header">
+                    <span className="referral-priority">{referral.priority.toUpperCase()}</span>
+                    <span className="referral-time">
+                      {new Date(referral.timestamp).toLocaleString()}
+                    </span>
                   </div>
-                  <span className="text-xs text-gray-400">
-                    {new Date(referral.timestamp).toLocaleString()}
-                  </span>
+                  <div className="referral-content">
+                    <div className="referral-patient">
+                      <strong>Patient:</strong> {referral.patient_id}
+                    </div>
+                    <div className="referral-organs">
+                      <strong>Organs:</strong> 
+                      <div className="organs-list">
+                        {referral.organs.map((organ, i) => (
+                          <span key={i} className="organ-tag">{organ}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="referral-details">
+                      <div className="detail-item">
+                        <span>Destination:</span>
+                        <span>{referral.destination}</span>
+                      </div>
+                      {referral.match_probability && (
+                        <div className="detail-item">
+                          <span>Match Probability:</span>
+                          <span className="match-score">
+                            {(referral.match_probability * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -389,6 +719,7 @@ const OrganCoordination = () => {
 
 // Main App Component
 function App() {
+  const [showHero, setShowHero] = useState(true);
   const [activeTab, setActiveTab] = useState("emergency");
 
   const tabs = [
@@ -399,76 +730,92 @@ function App() {
 
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || EmergencyDashboard;
 
+  const handleGetStarted = () => {
+    setShowHero(false);
+  };
+
+  if (showHero) {
+    return <HeroSection onGetStarted={handleGetStarted} />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="app-container">
       {/* Header */}
-      <header className="bg-white shadow-lg border-b-4 border-blue-600">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl font-bold">👻</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800">GhostChart AI</h1>
-                <p className="text-sm text-gray-600">Autonomous Health Directive Executor</p>
-              </div>
+      <header className="app-header">
+        <div className="header-container">
+          <button 
+            onClick={() => setShowHero(true)}
+            className="logo-section"
+          >
+            <div className="logo-icon">👻</div>
+            <div className="logo-text">
+              <h1 className="logo-title">GhostChart AI</h1>
+              <p className="logo-subtitle">Autonomous Health Directive Executor</p>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-500">WCHL 2025 Competition Entry</p>
-              <p className="text-xs text-gray-500">ICP Mainnet Ready</p>
+          </button>
+          
+          <div className="header-info">
+            <div className="status-indicator">
+              <span className="status-dot"></span>
+              <span>Live System</span>
+            </div>
+            <div className="competition-info">
+              <span className="competition-badge-small">WCHL 2025</span>
+              <span className="mainnet-badge">ICP Mainnet Ready</span>
             </div>
           </div>
         </div>
       </header>
 
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex space-x-8">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === tab.id
-                    ? "border-blue-600 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+      <nav className="app-navigation">
+        <div className="nav-container">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`nav-tab ${activeTab === tab.id ? 'nav-active' : 'nav-inactive'}`}
+            >
+              <span className="nav-label">{tab.label}</span>
+              {activeTab === tab.id && <div className="nav-indicator"></div>}
+            </button>
+          ))}
         </div>
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto">
+      <main className="app-main">
         <ActiveComponent />
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white mt-12">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <h3 className="font-bold mb-2">🔒 HIPAA Compliant</h3>
-              <p className="text-sm text-gray-300">All PHI protected for 50 years post-mortem as required by law.</p>
+      <footer className="app-footer">
+        <div className="footer-container">
+          <div className="footer-grid">
+            <div className="footer-section">
+              <h3 className="footer-title">🔒 HIPAA Compliant</h3>
+              <p className="footer-text">All PHI protected for 50 years post-mortem as required by law.</p>
             </div>
-            <div>
-              <h3 className="font-bold mb-2">⚡ Real-Time Verification</h3>
-              <p className="text-sm text-gray-300">Sub-second blockchain verification using ICP Threshold ECDSA.</p>
+            <div className="footer-section">
+              <h3 className="footer-title">⚡ Real-Time Verification</h3>
+              <p className="footer-text">Sub-second blockchain verification using ICP Threshold ECDSA.</p>
             </div>
-            <div>
-              <h3 className="font-bold mb-2">🧠 AI-Powered</h3>
-              <p className="text-sm text-gray-300">Llama3.1:8b NLP processing for natural language directives.</p>
+            <div className="footer-section">
+              <h3 className="footer-title">🧠 AI-Powered</h3>
+              <p className="footer-text">Llama3.1:8b NLP processing for natural language directives.</p>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-6 pt-4 text-center">
-            <p className="text-sm text-gray-400">
+          <div className="footer-bottom">
+            <p className="footer-copyright">
               GhostChart AI © 2025 | Built for WCHL 2025 on Internet Computer Protocol
             </p>
+            <div className="footer-links">
+              <span>🏆 Competition Entry</span>
+              <span>•</span>
+              <span>🌐 ICP Mainnet</span>
+              <span>•</span>
+              <span>🤖 AI Track</span>
+            </div>
           </div>
         </div>
       </footer>
