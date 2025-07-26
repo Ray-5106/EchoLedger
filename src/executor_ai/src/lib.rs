@@ -317,7 +317,7 @@ fn pre_upgrade() {
 
 #[post_upgrade]
 fn post_upgrade() {
-    ic_cdk::println!("Executor AI canister upgraded");
+    ic_cdk::println!("EchoLedger Executor AI canister upgraded");
 }
 
 // Export Candid interface
