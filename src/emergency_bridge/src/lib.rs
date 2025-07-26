@@ -211,7 +211,7 @@ fn pre_upgrade() {
 /// Post-upgrade hook
 #[post_upgrade] 
 fn post_upgrade() {
-    ic_cdk::println!("Emergency Bridge canister upgraded");
+    ic_cdk::println!("EchoLedger Emergency Bridge canister upgraded");
 }
 
 // Export Candid interface
