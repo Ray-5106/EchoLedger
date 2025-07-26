@@ -1,0 +1,49 @@
+type OrganMatch = record {
+  donor_id : text;
+  recipient_id : text;
+  organ_type : text;
+  match_score : float64;
+  blood_type_compatible : bool;
+  tissue_match : float64;
+  distance_km : float64;
+  urgency_score : float64;
+};
+
+type OrganReferral = record {
+  id : text;
+  patient_id : text;
+  organs : vec text;
+  destination : text;
+  priority : text;
+  match_probability : opt float64;
+  transport_deadline : nat64;
+  created_at : nat64;
+};
+
+type DataReleaseRequest = record {
+  request_id : text;
+  patient_id : text;
+  researcher_id : text;
+  institution : text;
+  data_types : vec text;
+  anonymization_level : text;
+  consent_verified : bool;
+  approved : bool;
+};
+
+type ExecutionResult = record {
+  patient_id : text;
+  actions_completed : vec text;
+  organ_referrals_created : nat32;
+  data_releases_prepared : nat32;
+  total_execution_time_ms : nat64;
+};
+
+service : {
+  coordinate_organ_donation : (text, vec text) -> (OrganReferral);
+  process_data_release_request : (text, text, text, vec text) -> (DataReleaseRequest);
+  execute_death_directives_ai : (text) -> (ExecutionResult);
+  get_organ_referrals : (nat64) -> (vec OrganReferral) query;
+  get_data_releases : (nat64) -> (vec DataReleaseRequest) query;
+  get_organ_matches : (text) -> (vec OrganMatch) query;
+}
