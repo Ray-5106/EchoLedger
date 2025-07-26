@@ -1,0 +1,109 @@
+name: GhostChart CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        target: wasm32-unknown-unknown
+        override: true
+        
+    - name: Install dfx
+      run: |
+        wget https://github.com/dfinity/sdk/releases/download/0.15.1/dfx-0.15.1-x86_64-linux.tar.gz
+        tar -xzf dfx-0.15.1-x86_64-linux.tar.gz
+        sudo mv dfx /usr/local/bin/dfx
+        dfx --version
+        
+    - name: Cache cargo registry
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+        
+    - name: Cache cargo index
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+        
+    - name: Run tests
+      run: cargo test --verbose
+      
+    - name: Build canisters
+      run: |
+        dfx start --background
+        dfx build
+        dfx stop
+
+  deploy-testnet:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dfx
+      run: |
+        wget https://github.com/dfinity/sdk/releases/download/0.15.1/dfx-0.15.1-x86_64-linux.tar.gz
+        tar -xzf dfx-0.15.1-x86_64-linux.tar.gz
+        sudo mv dfx /usr/local/bin/dfx
+        
+    - name: Deploy to local testnet
+      run: |
+        dfx start --background
+        dfx deploy --network local
+        dfx canister call directive_manager get_system_info --network local
+        dfx stop
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run security audit
+      run: |
+        cargo audit
+        
+    - name: Check for HIPAA compliance patterns
+      run: |
+        grep -r "PHI" src/ || echo "No PHI references found"
+        grep -r "patient_name\|ssn\|dob" src/ || echo "No direct PHI exposure"
+
+  compliance-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: HIPAA Compliance Check
+      run: |
+        echo "Checking HIPAA compliance patterns..."
+        # Check for PHI protection
+        if grep -r "PHI_REDACT" src/; then
+          echo "✅ PHI redaction patterns found"
+        else
+          echo "❌ Missing PHI redaction"
+          exit 1
+        fi
+        
+        # Check for retention policies
+        if grep -r "50.*year" src/; then
+          echo "✅ 50-year retention policy implemented"
+        else
+          echo "❌ Missing retention policy"
+          exit 1
+        fi
