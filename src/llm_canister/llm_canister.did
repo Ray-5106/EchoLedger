@@ -1,0 +1,50 @@
+type DataConsentDetails = record {
+  research_allowed : bool;
+  anonymization_required : bool;
+  institutions : vec text;
+  data_types : vec text;
+  retention_years : nat32;
+};
+
+type MedicalElements = record {
+  dnr_detected : bool;
+  dnr_conditions : vec text;
+  organ_donation : vec text;
+  data_consent : opt DataConsentDetails;
+  advance_directive_type : text;
+  legal_validity_score : float32;
+};
+
+type MedicalNLPResult = record {
+  patient_id : text;
+  directive_text : text;
+  extracted_elements : MedicalElements;
+  confidence_score : float32;
+  recommendation : text;
+};
+
+type LLMRequest = record {
+  id : text;
+  prompt : text;
+  model : text;
+  temperature : float32;
+  max_tokens : nat32;
+  context : opt text;
+};
+
+type LLMResponse = record {
+  id : text;
+  result : text;
+  confidence : float32;
+  processing_time_ms : nat64;
+  tokens_used : nat32;
+};
+
+service : {
+  process_medical_directive : (text, text) -> (MedicalNLPResult);
+  biobert_risk_assessment : (text, text) -> (LLMResponse);
+  get_medical_analysis : (text) -> (opt MedicalNLPResult) query;
+  get_llm_response : (text) -> (opt LLMResponse) query;
+  get_recent_analyses : (nat64) -> (vec MedicalNLPResult) query;
+  get_model_stats : () -> (text) query;
+}
