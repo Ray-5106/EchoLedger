@@ -21,7 +21,7 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app without a prefix
-app = FastAPI(title="GhostChart AI - Health Directive Executor", version="1.0.0")
+app = FastAPI(title="EchoLedger - Health Directive Executor", version="1.0.0")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
@@ -136,7 +136,7 @@ def simulate_blockchain_verification(directive_id: str) -> bool:
 
 @api_router.get("/")
 async def root():
-    return {"message": "GhostChart AI - Autonomous Health Directive Executor", "status": "operational"}
+    return {"message": "EchoLedger - Autonomous Health Directive Executor", "status": "operational"}
 
 @api_router.post("/emergency/check", response_model=Dict[str, Any])
 async def emergency_directive_check(query: ERQuery):

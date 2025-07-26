@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# GhostChart ICP Mainnet Deployment Script
+# EchoLedger ICP Mainnet Deployment Script
 # WCHL 2025 Competition Entry
 
 set -e
 
-echo "🚀 Starting GhostChart deployment to ICP Mainnet..."
+echo "🚀 Starting EchoLedger deployment to ICP Mainnet..."
 
 # Check if dfx is installed
 if ! command -v dfx &> /dev/null; then
@@ -66,7 +66,7 @@ LLM_CANISTER_ID=$(dfx canister id llm_canister --network ic)
 
 echo "✅ Deployment Complete!"
 echo ""
-echo "🎉 GhostChart Live on ICP Mainnet:"
+echo "🎉 EchoLedger Live on ICP Mainnet:"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "🚨 Emergency Bridge:    https://${EMERGENCY_BRIDGE_ID}.icp0.io"
 echo "📋 Directive Manager:   https://${DIRECTIVE_MANAGER_ID}.icp0.io" 
@@ -78,7 +78,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 # Update README with live URLs
 echo "📝 Updating README with live canister IDs..."
 cat > DEPLOYMENT_INFO.md << EOF
-# GhostChart Live Deployment Information
+# EchoLedger Live Deployment Information
 
 ## WCHL 2025 Competition - ICP Mainnet Deployment
 
@@ -140,7 +140,7 @@ echo "Testing directive manager..."
 dfx canister call directive_manager get_system_info --network ic
 
 echo ""
-echo "🎊 GhostChart Successfully Deployed to ICP Mainnet!"
+echo "🎊 EchoLedger Successfully Deployed to ICP Mainnet!"
 echo "🏆 Ready for WCHL 2025 Competition Judging"
 echo ""
 echo "Next steps:"

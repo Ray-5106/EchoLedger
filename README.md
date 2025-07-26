@@ -1,4 +1,4 @@
-# 👻 GhostChart AI - Autonomous Health Directive Executor
+# 📡 EchoLedger - Autonomous Health Directive Executor
 
 [![ICP](https://img.shields.io/badge/Internet_Computer-Protocol-29ABE2?style=for-the-badge&logo=internetcomputer&logoColor=white)](https://internetcomputer.org)
 [![WCHL 2025](https://img.shields.io/badge/WCHL-2025-gold?style=for-the-badge)](https://dorahacks.io/wchl)
@@ -39,7 +39,7 @@ Modern healthcare fails patients when their end-of-life wishes are ignored or lo
 - **🔒 HIPAA requires** protecting deceased patient data for **50 years**
 - **92% of patients** want strict control over their health data
 
-**GhostChart solves this with blockchain-verified, AI-enforced autonomous directive execution.**
+**EchoLedger solves this with blockchain-verified, AI-enforced autonomous directive execution.**
 
 ---
 
@@ -47,7 +47,7 @@ Modern healthcare fails patients when their end-of-life wishes are ignored or lo
 
 ### **🔗 ICP Canister Structure**
 ```
-GhostChart/
+EchoLedger/
 ├── 🚨 emergency_bridge/     # Rust - Real-time ER alerts (WebSpeed)
 ├── 📋 directive_manager/    # Motoko - HIPAA-compliant storage
 ├── 🤖 executor_ai/          # Rust - Organ matching & coordination  
@@ -95,16 +95,16 @@ graph LR
 sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
 
 # Create identity and get cycles
-dfx identity new ghostchart
-dfx identity use ghostchart
+dfx identity new echoledger
+dfx identity use echoledger
 dfx ledger create-canister --amount 10
 ```
 
 ### **🏃 Local Development**
 ```bash
 # Clone and setup
-git clone https://github.com/your-username/ghostchart-icp
-cd ghostchart-icp
+git clone https://github.com/your-username/echoledger-icp
+cd echoledger-icp
 
 # Start local replica
 dfx start --clean --background
@@ -331,23 +331,33 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support & Contact
 
-- **📧 Email:** ghostchart@example.com
+- **📧 Email:** echoledger@example.com
 - **💬 Discord:** Join [WCHL 2025 Discord](https://discord.gg/wchl2025)
-- **🐦 Twitter:** [@GhostChartAI](https://twitter.com/ghostchartai)
-- **📋 Issues:** [GitHub Issues](https://github.com/your-username/ghostchart-icp/issues)
+- **🐦 Twitter:** [@EchoLedgerAI](https://twitter.com/echoledgerai)
+- **📋 Issues:** [GitHub Issues](https://github.com/your-username/echoledger-icp/issues)
 
 ---
 
-<div align="center">
+## 🏆 Why We Should Win
 
-### 🏆 **WCHL 2025 - Building the Future of Healthcare on ICP**
-
-**⭐ Star this repo if GhostChart can save lives through autonomous directive enforcement!**
-
-[![Star on GitHub](https://img.shields.io/github/stars/your-username/ghostchart-icp?style=social)](https://github.com/your-username/ghostchart-icp)
-
-</div>
+1. **Solves Real Healthcare Crisis** - 28K organs wasted + directive non-compliance
+2. **Full ICP Implementation** - Not just a demo, but production-ready canisters
+3. **Autonomous AI Operation** - First truly autonomous healthcare system
+4. **Technical Innovation** - Advanced multi-canister architecture
+5. **Immediate Impact** - Can be deployed in hospitals tomorrow
+6. **Perfect Competition Fit** - AI track, real-world impact, ICP native
 
 ---
+
+## 📞 Contact & Links
+
+**Demo URL:** https://8590a005-caf1-43bf-8e86-33eb0f9ba214.preview.emergentagent.com  
+**GitHub:** Will be provided upon submission  
+**Email:** Available upon request  
+**Competition Track:** AI - Decentralized Intelligence  
+
+---
+
+**🎉 Thank you WCHL 2025 judges for considering EchoLedger!**
 
 *Built with 💜 on the Internet Computer - Where every canister can save a life*

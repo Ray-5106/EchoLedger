@@ -1,8 +1,8 @@
-# 🏆 GhostChart AI - WCHL 2025 Competition Submission
+# 🏆 EchoLedger - WCHL 2025 Competition Submission
 
 ## 📋 Submission Overview
 
-**Project Name:** GhostChart AI - Autonomous Health Directive Executor  
+**Project Name:** EchoLedger - Autonomous Health Directive Executor  
 **Competition:** WCHL 2025 - AI Track  
 **Team:** Solo Developer Entry  
 **Submission Date:** July 25, 2025  
@@ -18,7 +18,7 @@
 - **Manual processes** delay critical life-saving decisions
 
 ### **Solution: Autonomous AI Healthcare Executor**
-GhostChart is the first **fully autonomous** health directive enforcement system built on Internet Computer Protocol, using AI to honor patient wishes in real-time.
+EchoLedger is the first **fully autonomous** health directive enforcement system built on Internet Computer Protocol, using AI to honor patient wishes in real-time.
 
 ---
 
@@ -166,8 +166,8 @@ pub fn hipaa_compliance_check(directive: &PatientDirective) -> ComplianceResult 
 ### **For Judges to Deploy ICP Canisters:**
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-username/ghostchart-icp
-cd ghostchart-icp
+git clone https://github.com/your-username/echoledger-icp
+cd echoledger-icp
 
 # 2. Install dfx CLI
 sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
@@ -186,7 +186,7 @@ Simply visit: https://8590a005-caf1-43bf-8e86-33eb0f9ba214.preview.emergentagent
 
 ## 🌟 Innovation & Impact
 
-### **Why GhostChart Wins:**
+### **Why EchoLedger Wins:**
 1. **First autonomous healthcare executor** - No human intervention needed
 2. **Real-time life-saving decisions** - Sub-second DNR verification
 3. **AI-powered medical NLP** - Extracts directives from natural language
@@ -233,6 +233,6 @@ Simply visit: https://8590a005-caf1-43bf-8e86-33eb0f9ba214.preview.emergentagent
 
 ---
 
-**🎉 Thank you WCHL 2025 judges for considering GhostChart AI!**
+**🎉 Thank you WCHL 2025 judges for considering EchoLedger!**
 
 *Built with 💜 on the Internet Computer - Where every canister can save a life*

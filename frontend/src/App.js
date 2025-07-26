@@ -49,7 +49,7 @@ const HeroSection = ({ onGetStarted }) => {
 
           {/* Main Heading */}
           <h1 className="hero-title">
-            <span className="gradient-text">👻 GhostChart AI</span>
+            <span className="gradient-text">📡 EchoLedger</span>
             <br />
             <span className="hero-subtitle">Autonomous Health Directive Executor</span>
           </h1>
@@ -747,9 +747,9 @@ function App() {
             onClick={() => setShowHero(true)}
             className="logo-section"
           >
-            <div className="logo-icon">👻</div>
+            <div className="logo-icon">📡</div>
             <div className="logo-text">
-              <h1 className="logo-title">GhostChart AI</h1>
+              <h1 className="logo-title">EchoLedger</h1>
               <p className="logo-subtitle">Autonomous Health Directive Executor</p>
             </div>
           </button>
@@ -807,7 +807,7 @@ function App() {
           </div>
           <div className="footer-bottom">
             <p className="footer-copyright">
-              GhostChart AI © 2025 | Built for WCHL 2025 on Internet Computer Protocol
+              EchoLedger © 2025 | Built for WCHL 2025 on Internet Computer Protocol
             </p>
             <div className="footer-links">
               <span>🏆 Competition Entry</span>
