@@ -1,4 +1,4 @@
-//! Emergency Bridge Integration Tests
+//! EchoLedger Emergency Bridge Integration Tests
 //! Tests the critical emergency directive verification workflow
 
 use candid::{Decode, Encode};
