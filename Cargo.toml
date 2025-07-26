@@ -1,0 +1,20 @@
+[workspace]
+members = [
+    "src/emergency_bridge",
+    "src/executor_ai", 
+    "src/llm_canister"
+]
+
+[workspace.dependencies]
+ic-cdk = "0.15"
+ic-cdk-macros = "0.9"
+candid = "0.10"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+ic-stable-structures = "0.6"
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true

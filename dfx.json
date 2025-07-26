@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "canisters": {
+    "emergency_bridge": {
+      "type": "rust",
+      "package": "emergency_bridge",
+      "candid": "src/emergency_bridge/emergency_bridge.did"
+    },
+    "directive_manager": {
+      "type": "motoko",
+      "main": "src/directive_manager/main.mo"
+    },
+    "executor_ai": {
+      "type": "rust", 
+      "package": "executor_ai",
+      "candid": "src/executor_ai/executor_ai.did"
+    },
+    "frontend": {
+      "type": "assets",
+      "source": ["frontend/build"]
+    },
+    "llm_canister": {
+      "type": "rust",
+      "package": "llm_canister", 
+      "candid": "src/llm_canister/llm_canister.did"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "providers": ["https://ic0.app"],
+      "type": "persistent"
+    }
+  },
+  "output_env_file": ".env",
+  "generate": {
+    "emergency_bridge": {
+      "wasm": "target/wasm32-unknown-unknown/release/emergency_bridge.wasm",
+      "declarations": "declarations/emergency_bridge"
+    },
+    "directive_manager": {
+      "declarations": "declarations/directive_manager"
+    },
+    "executor_ai": {
+      "wasm": "target/wasm32-unknown-unknown/release/executor_ai.wasm", 
+      "declarations": "declarations/executor_ai"
+    },
+    "llm_canister": {
+      "wasm": "target/wasm32-unknown-unknown/release/llm_canister.wasm",
+      "declarations": "declarations/llm_canister"
+    }
+  }
+}

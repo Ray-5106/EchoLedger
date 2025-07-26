@@ -1,0 +1,44 @@
+type DirectiveRecord = record {
+  patient_id : text;
+  directive_type : text;
+  conditions : vec text;
+  signature_hash : text;
+  verified : bool;
+  created_at : nat64;
+};
+
+type EmergencyQuery = record {
+  patient_id : text;
+  hospital_id : text;
+  situation : text;
+  vitals : opt text;
+  access_token : opt text;
+};
+
+type EmergencyResponse = record {
+  action : text;
+  patient_id : text;
+  directive : opt text;
+  message : text;
+  directive_found : bool;
+  signature_verified : bool;
+  timestamp : nat64;
+  alert_id : opt text;
+};
+
+type WebSpeedAlert = record {
+  alert_id : text;
+  patient_id : text;
+  alert_type : text;
+  message : text;
+  priority : text;
+  timestamp : nat64;
+};
+
+service : {
+  emergency_check : (EmergencyQuery) -> (EmergencyResponse);
+  store_directive : (DirectiveRecord) -> (bool);
+  get_directive : (text) -> (opt DirectiveRecord) query;
+  get_recent_alerts : (nat64) -> (vec WebSpeedAlert) query;
+  webspeed_notify : (WebSpeedAlert) -> (bool);
+}
