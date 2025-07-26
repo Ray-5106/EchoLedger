@@ -107,9 +107,8 @@ class GhostChartAPITester:
         return self.run_test(
             "Death Directive Execution",
             "POST",
-            "death/execute",
-            200,
-            params={"patient_id": "organ_donor_003"}
+            "death/execute?patient_id=organ_donor_003",
+            200
         )
 
     def test_get_patient_directives(self):
