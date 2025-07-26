@@ -353,7 +353,7 @@ fn get_model_stats() -> String {
 
 #[init]
 fn init() {
-    ic_cdk::println!("LLM Canister initialized - Llama3.1:8b ready for medical analysis");
+    ic_cdk::println!("EchoLedger LLM Canister initialized - Llama3.1:8b ready for medical analysis");
 }
 
 #[pre_upgrade]
