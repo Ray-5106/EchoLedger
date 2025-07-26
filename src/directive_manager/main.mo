@@ -300,6 +300,6 @@ actor DirectiveManager {
     };
 
     public query func get_system_info(): async Text {
-        "GhostChart Directive Manager v1.0 - HIPAA Compliant - " # Nat.toText(directives.size()) # " directives stored"
+        "EchoLedger Directive Manager v1.0 - HIPAA Compliant - " # Nat.toText(directives.size()) # " directives stored"
     };
 }
