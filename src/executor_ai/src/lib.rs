@@ -307,7 +307,7 @@ fn get_organ_matches(organ_type: String) -> Vec<OrganMatch> {
 
 #[init]
 fn init() {
-    ic_cdk::println!("Executor AI canister initialized");
+    ic_cdk::println!("EchoLedger Executor AI canister initialized");
 }
 
 #[pre_upgrade]
