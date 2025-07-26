@@ -199,7 +199,7 @@ async fn webspeed_notify(alert: WebSpeedAlert) -> bool {
 /// Initialize canister
 #[init]
 fn init() {
-    ic_cdk::println!("Emergency Bridge canister initialized");
+    ic_cdk::println!("EchoLedger Emergency Bridge canister initialized");
 }
 
 /// Pre-upgrade hook
